@@ -46,7 +46,7 @@ int16_t key=0;
 int16_t left_k=0;
 int16_t key_num=0;
 int16_t speed=30;//35  30
-
+//修复相关问题
 int main(void)
 {
 	SystemInit();
@@ -105,7 +105,6 @@ key_num=key_num+key;
 		Delay_s(2);
 		Motor_MECNAMU_SetSpeed(-speed,0);//  左
 		Delay_s(2);
-
 	}
 	else
 	{

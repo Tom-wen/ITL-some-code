@@ -3,11 +3,11 @@
         {
             "name": "Target 1",
             "includePath": [
-                "d:\\study\\huawu+OK\\Start",
-                "d:\\study\\huawu+OK\\Library",
-                "d:\\study\\huawu+OK\\User",
-                "d:\\study\\huawu+OK\\System",
-                "d:\\study\\huawu+OK\\Hardware",
+                "d:\\RoboMaster\\git\\huawu+OK\\Start",
+                "d:\\RoboMaster\\git\\huawu+OK\\Library",
+                "d:\\RoboMaster\\git\\huawu+OK\\User",
+                "d:\\RoboMaster\\git\\huawu+OK\\System",
+                "d:\\RoboMaster\\git\\huawu+OK\\Hardware",
                 "D:\\Keil5\\ARM\\ARMCC\\include",
                 "D:\\Keil5\\ARM\\ARMCC\\include\\rw"
             ],

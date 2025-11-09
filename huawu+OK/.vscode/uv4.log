@@ -1,2 +1,30 @@
-Load "d:\\study\\huawu+OK\\Objects\\Project.axf" 
-Erase Done.Programming Done.Verify OK.Flash Load finished at 20:50:33
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Keil5\ARM\ARMCC\Bin'
+Build target 'Target 1'
+compiling main.c...
+.\Hardware\JY61P.h(9): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Hardware\gray_line.h(21): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Hardware\Encoder.h(4): warning:  #1295-D: Deprecated declaration Encoder_Init - give arg types
+  void Encoder_Init();
+.\Hardware\Encoder.h(5): warning:  #1295-D: Deprecated declaration Encoder_Get - give arg types
+  int16_t Encoder_Get();
+.\Hardware\LINE_FOLLOWER.h(12): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Hardware\TIMER.h(7): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\Hardware\OPEN_MV.h(26): warning:  #1-D: last line of file ends without a newline
+  #endif
+User\main.c(35): warning:  #68-D: integer conversion resulted in a change of sign
+  uint16_t speed_normal = -30;
+User\main.c(37): warning:  #68-D: integer conversion resulted in a change of sign
+  uint16_t speed_go = -100;
+User\main.c(38): warning:  #68-D: integer conversion resulted in a change of sign
+  uint16_t speed_afterturn = -10;
+User\main.c(70): warning:  #177-D: variable "test_speeds"  was declared but never referenced
+  	int8_t test_speeds[] = {10, 25, 50, 75, 100};
+User\main.c: 11 warnings, 0 errors
+linking...
+Program Size: Code=9948 RO-data=820 RW-data=164 ZI-data=2340  
+".\Objects\Project.axf" - 0 Error(s), 11 Warning(s).
+Build Time Elapsed:  00:00:02
