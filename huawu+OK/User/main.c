@@ -18,35 +18,18 @@ const uint32_t c_uiBaud[10] = {0, 4800, 9600, 19200, 38400, 57600, 115200, 23040
 void AutoScanSensor(void);
 void SensorUartSend(uint8_t *p_data, uint32_t uiSize);
 void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum);
-void Start(void);
-float angle_diff;
-float fAcc[3], fGyro[3], fAngle[3];
-int i;
-int count;
-volatile uint32_t system_tick = 0;
-void TIM4_IRQHandler(void);
-float turn_start_angle = 0.0f;
-uint8_t turning = 0;  // 0:未转弯, 1:正在左转, 2:正在右转
-char buffer[10];
-uint16_t flag=0;
-uint16_t flag_1=0;
 
 
-uint16_t speed_normal = -30;
-uint16_t speed_behind = 40;
-uint16_t speed_go = -100;
-uint16_t speed_afterturn = -10;
 
 //-----------------------------------------------------//
 
 uint8_t KeyNum;		//定义用于接收按键键码的变量
-int16_t Speed;		//定义速度变量
-int16_t Num=0;//定义待被旋转编码器调节的变量
+int16_t i=0;//定义待被旋转编码器调节的变量
 int16_t key=0;
-int16_t left_k=0;
 int16_t key_num=0;
-int16_t speed=30;//35  30
+int16_t speed=40;//25满电量状态
 //修复相关问题
+
 int main(void)
 {
 	SystemInit();
@@ -57,304 +40,64 @@ int main(void)
 	WitRegisterCallBack(SensorDataUpdata);
 	AutoScanSensor(); 
 	/*模块初始化*/
-	OLED_Init();		//OLED初始化
-//	Encoder_Init(ENCODER_LEFT_REAR);
-	USART3_openmv_Init(9600);// PD8-TX,PD9-RX
 	uart4_init(9600);
-//  Encoder_Init(ENCODER_LEFT_FRONT);
-//  Encoder_Init(ENCODER_RIGHT_FRONT);
 	line_follower_init();
 	Timer_Init(10000-1,7200-1);
-//	OLED_ShowString(1, 1, "Num:");			//1行1列显示字符串Num:
 	Key_Init();			//按键初始化	
-	int8_t test_speeds[] = {10, 25, 50, 75, 100};
 	Delay_ms(1000);
 	while (1)
 	{
-//	Motor_SetSpeed(30);
-key=Key_GetNum();
-key_num=key_num+key;
-//void Motor_MECNAMU_SetSpeed(int8_t chassis_vx,int8_t chassis_vy)
-		//改变vx,vy的值，例如前进为（vx,0）,后退为（vy,0）如果颠倒则取负数，如果是左右问题交换xy,具体以实际为准
-		//(x,y) x正：右  y正：后
-	if (key_num % 2==1)
-	{
-		Motor_MECNAMU_SetSpeed(-speed,0);//30   左
-		Delay_ms(6500);
-
-		//第一个箱子
-		Motor_MECNAMU_SetSpeed(0,-speed);//    前
-		Delay_s(5);
-		Motor_MECNAMU_SetSpeed(0,speed);//    后
-		Delay_s(2);
-		Motor_MECNAMU_SetSpeed(-speed,0);//  左
-		Delay_ms(4500);
-
-		//第二个箱子
-		Motor_MECNAMU_SetSpeed(0,-speed);//    前
-		Delay_s(2);
-		Motor_MECNAMU_SetSpeed(0,speed);//    后
-		Delay_s(2);
-		Motor_MECNAMU_SetSpeed(-speed,0);//  左
-		Delay_ms(4500);
-
-		//第三个箱子
-		Motor_MECNAMU_SetSpeed(0,-speed);//    前
-		Delay_s(2);
-		Motor_MECNAMU_SetSpeed(0,speed);//    后
-		Delay_s(2);
-		Motor_MECNAMU_SetSpeed(-speed,0);//  左
-		Delay_s(2);
-	}
-	else
-	{
-		Motor_MECNAMU_SetSpeed(0,0);//30
-	}		
-		
-
-		//test_motor_left(30);
-	//	test_motor_right(30);
-
-					//					set_motor_speeds(30, 00);//左转
-//Start();
-//OLED_ShowSignedNum(1,1,fAngle[2],3);
-//planBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
-//			if ( key==0 )
-//		{
-//			set_motor_speeds(-35, -35); 
-//			Delay_ms (6700);//
-//			key=key+1;
-//		}
-//			else if (key==1)//第一个右转
-//		{
-//			
-//			if (!turning) 	
-//						{
-//								// 开始右转，记录起始角度
-//								turn_start_angle = fAngle[2];
-//								turning = 2;  // 标记为正在右转
-//						}
-//						while(1)
-//						{
-//							Start();
-//						// 检查是否转过90度
-//						float angle_diff = fAngle[2] - turn_start_angle;
-//						if (angle_diff <= -75.0f)  // 右转角度差约为-90度 85.0 angle_diff <= -85.0f//90.0
-//						{
-//								// 完成90度右转，恢复直行
-//								set_motor_speeds(-35, -35);
-//								turning = 0;  // 重置转弯状态
-//								OLED_ShowString(3, 1, "Right90 Done ");
-//								break;
-//						}
-//						else
-//						{
-//								// 继续右转
-//								set_motor_speeds(30, -50);//(20, -90) (20,-80)
-//								OLED_ShowSignedNum(2, 1, (int16_t)angle_diff, 3);
-//								OLED_ShowString(3, 5, " R");
-//						}
-//						Delay_ms(100);  // 缩短延时以便更频繁地检查角度
-//					}
-//			
-//			
-//		key=key+1;
-//					
-//		}
-
-//		else if (key==2)//拐弯第一个箱子
-//		{
-
-//			set_motor_speeds(-30, -30); 
-//			Delay_ms (6000);
-//			key=key+1;
-//		}	
-//		else if (key==3)//拐弯后的后退
-//		{
-
-//			set_motor_speeds(35, 35); 
-//			Delay_ms (4000);//6000
-//			key=key+1;
-
-//		}
-//		else if(key==4)//左拐弯
-//		{
-//							if (!turning) 
-//						{
-//								// 开始左转，记录起始角度
-//								turn_start_angle = fAngle[2];
-//								turning = 1;  // 标记为正在左转
-//						}
-//						
-//						while(1)
-//						{
-//						Start();
-//						// 检查是否转过90度
-//						float angle_diff = fAngle[2] - turn_start_angle;
-//						if (angle_diff >= 84.0f)  // 左转角度差约为+90度//90
-//						{
-//								// 完成90度左转，恢复直行
-//								set_motor_speeds(-30, -30);
-//								turning = 0;  // 重置转弯状态
-//								OLED_ShowString(3, 1, "Left90 Done  ");
-//							break;
-//						}
-//						else
-//						{
-//								// 继续左转
-//								set_motor_speeds(-60, 30);
-//								OLED_ShowSignedNum(2, 1, (int16_t)angle_diff, 3);
-//								OLED_ShowString(3, 5, " L");
-//						}
-//						Delay_ms(100);  // 缩短延时以便更频繁地检查角度
-//						}
-//						key=key+1;
-
-//		}
-//		else if(key==5)//左拐弯后的直线
-//		{
-//			
-//			set_motor_speeds(-45, -45); 
-//			Delay_ms (2850);
-//			key=key+1;
-//		}
-//		else if (key==6)//右拐弯
-//		{
-//							if (!turning) 	
-//						{
-//								// 开始右转，记录起始角度
-//								turn_start_angle = fAngle[2];
-//								turning = 2;  // 标记为正在右转
-//						}
-//						while(1)
-//						{
-//							Start();
-//						// 检查是否转过90度
-//						float angle_diff = fAngle[2] - turn_start_angle;
-//						if (angle_diff <= -83.0f)  // 右转角度差约为-90度 85.0 angle_diff <= -85.0f
-//						{
-//								// 完成90度右转，恢复直行
-//								set_motor_speeds(-20, -20);
-//								turning = 0;  // 重置转弯状态
-//								OLED_ShowString(3, 1, "Right90 Done ");
-//								break;
-//						}
-//						else
-//						{
-//								// 继续右转
-//								set_motor_speeds(40, -100);//(20, -90)（20,-80）
-//								OLED_ShowSignedNum(2, 1, (int16_t)angle_diff, 3);
-//								OLED_ShowString(3, 5, " R");
-//						}
-//						Delay_ms(100);  // 缩短延时以便更频繁地检查角度
-//					}
-//			key=key+1;
-//		}
-//		else if (key==7)//拐弯第二个箱子
-//		{
-//			set_motor_speeds(-40, -40); 
-//			Delay_ms (2600);
-//			key=key+1;
-//		}	
-
-//		else if (key==8)//拐弯后的后退
-//		{
-
-//			set_motor_speeds(40, 40); //20,20
-//			Delay_ms (2000);
-//			key=key+1;
-
-//		}
-
-//		else if (key==9)//左拐
-//		{
-//						if (!turning) 
-//						{
-//								// 开始左转，记录起始角度
-//								turn_start_angle = fAngle[2];
-//								turning = 1;  // 标记为正在左转
-//						}
-//						
-//						while(1)
-//						{
-//						Start();
-//						// 检查是否转过90度
-//						float angle_diff = fAngle[2] - turn_start_angle;
-//						if (angle_diff >= 90.0f)  // 左转角度差约为+90度
-//						{
-//								// 完成90度左转，恢复直行
-//								set_motor_speeds(-20, -20);
-//								turning = 0;  // 重置转弯状态
-//								OLED_ShowString(3, 1, "Left90 Done  ");
-//							break;
-//						}
-//						else
-//						{
-//								// 继续左转
-//								set_motor_speeds(-90, 20);
-//								OLED_ShowSignedNum(2, 1, (int16_t)angle_diff, 3);
-//								OLED_ShowString(3, 5, " L");
-//						}
-//						Delay_ms(100);  // 缩短延时以便更频繁地检查角度
-//						}
-//						key=key+1;
-//		}
-//		else if(key==10)//左拐弯后的直线
-//		{
-//			
-//			set_motor_speeds(-40, -40); 
-//			Delay_ms (450);
-//			key=key+1;
-//		}
-
-//		else if(key==11)//右拐弯
-//		{
-//							if (!turning) 	
-//						{
-//								// 开始右转，记录起始角度
-//								turn_start_angle = fAngle[2];
-//								turning = 2;  // 标记为正在右转
-//						}
-//						while(1)
-//						{
-//							Start();
-//						// 检查是否转过90度
-//						float angle_diff = fAngle[2] - turn_start_angle;
-//						if (angle_diff <= -90.0f)  // 右转角度差约为-90度 85.0 angle_diff <= -85.0f
-//						{
-//								// 完成90度右转，恢复直行
-//								set_motor_speeds(-20, -20);
-//								turning = 0;  // 重置转弯状态
-//								OLED_ShowString(3, 1, "Right90 Done ");
-//								break;
-//						}
-//						else
-//						{
-//								// 继续右转
-//								set_motor_speeds(20, -250);//(20, -90)（20,-80）
-//								OLED_ShowSignedNum(2, 1, (int16_t)angle_diff, 3);
-//								OLED_ShowString(3, 5, " R");
-//						}
-//						Delay_ms(100);  // 缩短延时以便更频繁地检查角度
-//					}
-//			key=key+1;
-
-//		}
-//		else if (key==12 )//冲刺
-//		{
-//			
-//			set_motor_speeds(-100, -100); 
-//			Delay_ms (700);
-//			key=key+1;
+		key=Key_GetNum();
+		key_num=key_num+key;
 
 
-//		}
+		//Motor_MECNAMU_SetSpeed(x,y);
+		//示例：前进（0,-10）左转（-10，0）
+		//示例：后退（0, 10）右转（ 10，0）
 
-//		else if(key==13)//停止
-//		{
-//		set_motor_speeds( 0, 0); 
-//		}
+		//以下为满电量状态参数
+		if (key_num % 2==1)
+		{
+			Motor_MECNAMU_SetSpeed(-speed,0);//30   左
+			Delay_ms(5000);
+
+			//6500
+
+			//第一个箱子
+			Motor_MECNAMU_SetSpeed(0,-speed);//    前
+			Delay_s(3);
+			Motor_MECNAMU_SetSpeed(0,speed);//    后
+			Delay_s(1);
+			Motor_MECNAMU_SetSpeed(-speed,0);//  左
+			Delay_ms(3200);
+
+			// 5 2 4500
+
+			//第二个箱子
+			Motor_MECNAMU_SetSpeed(0,-speed);//    前
+			Delay_ms(1500);
+			Motor_MECNAMU_SetSpeed(0,speed);//    后
+			Delay_ms(1500);
+			Motor_MECNAMU_SetSpeed(-speed,0);//   左
+			Delay_ms(3000);
+
+			// 2 2 4500
+
+			//第三个箱子
+			Motor_MECNAMU_SetSpeed(0,-speed);//    前
+			Delay_s(1);
+			Motor_MECNAMU_SetSpeed(0,speed);//    后
+			Delay_s(1);
+			Motor_MECNAMU_SetSpeed(-speed,0);//  左
+			Delay_s(1);
+
+			//2 2 2
 		}
+		else
+		{
+			Motor_MECNAMU_SetSpeed(0,0);//30
+		}				
+	}
 
 }
 
@@ -362,34 +105,9 @@ key_num=key_num+key;
 // 定时器中断服务函数 - 用于定期执行控制算法
 void TIM4_IRQHandler(void) 
 {           
-//    if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET)
-//    {
-//        // 执行巡线控制
-//        line_following_control();
-//			  system_tick++;
-//        TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
-//    }
 
 }
 
-void Start(void)
-{
-		if(s_cDataUpdate)
-		{
-			   for(i = 0; i < 3; i++)
-			   {
-			   	  fAngle[i] = sReg[Roll+i] / 32768.0f * 180.0f;
-			   }
-			   if(s_cDataUpdate & ANGLE_UPDATE)
-			   {
-					 RxData0=fAngle[0];
-					 RxData1=fAngle[1];
-					 RxData2=fAngle[2];
-			   	s_cDataUpdate &= ~ANGLE_UPDATE;
-					 
-			   }
-		}    
-}
 void CopeCmdData(unsigned char ucData)
 {
 	 static unsigned char s_ucData[50], s_ucRxCnt = 0;

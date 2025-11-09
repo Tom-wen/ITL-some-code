@@ -3,13 +3,13 @@
 #include "MOTOR.h"
 
 /**
-  * 函    数：直流电机初始化
-  * 参    数：无
-  * 返 回 值：无
+  * 凄1�7    数：直流电机初始匄1�7
+  * 叄1�7    数：旄1�7
+  * 迄1�7 囄1�7 值：旄1�7
   */
 void Motor_Init(void)
 {
-    /*开启时钟*/
+    /*弢�启时钄1�7*/
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
 
@@ -22,7 +22,7 @@ void Motor_Init(void)
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
 
-    // 如果需要额外的测试电机，单独配置
+    // 如果霢�要额外的测试电机，单独配罄1�7
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
     
@@ -34,8 +34,8 @@ void Motor_Init(void)
 
 //void Motor_B_Init(void)
 //{
-//	/*开启时钟*/
-//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);		//开启GPIOA的时钟
+//	/*弢�启时钄1�7*/
+//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);		//弢�启GPIOA的时钄1�7
 //	GPIO_InitTypeDef GPIO_InitStructure;
 //	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 //	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12; //|GPIO_Pin_6 | GPIO_Pin_7;
@@ -45,49 +45,49 @@ void Motor_Init(void)
 //}
 
 /**
-  * 函    数：直流电机设置速度
-  * 参    数：Speed 要设置的速度，范围：-100~100
-  * 返 回 值：无
+  * 凄1�7    数：直流电机设置速度
+  * 叄1�7    数：Speed 要设置的速度，范围：-100~100
+  * 迄1�7 囄1�7 值：旄1�7
   */
 void Motor_SetSpeed(int8_t Speed)
 {
     uint16_t pwm_value;
     
-    // 将Speed(-100到100)映射到PWM(0到999)
+    // 将Speed(-100刄1�7100)映射到PWM(0刄1�7999)
     if (Speed >= 0)
     {
         // 正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_0);    // 左电机正转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_1);  // 左电机反转
-        GPIO_SetBits(GPIOC, GPIO_Pin_2);    // 右电机正转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_3);  // 右电机反转
+        GPIO_SetBits(GPIOC, GPIO_Pin_0);    // 左电机正轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_1);  // 左电机反轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_2);    // 右电机正轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_3);  // 右电机反轄1�7
 //---------------------------------test--------------------------------//
-        GPIO_SetBits(GPIOC, GPIO_Pin_4);    // 左电机正转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_5);  // 左电机反转
-        GPIO_SetBits(GPIOD, GPIO_Pin_3);    // 右电机正转
-        GPIO_ResetBits(GPIOD, GPIO_Pin_7);  // 右电机反转
+        GPIO_SetBits(GPIOC, GPIO_Pin_4);    // 左电机正轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_5);  // 左电机反轄1�7
+        GPIO_SetBits(GPIOD, GPIO_Pin_3);    // 右电机正轄1�7
+        GPIO_ResetBits(GPIOD, GPIO_Pin_7);  // 右电机反轄1�7
       
-        pwm_value = (uint16_t)((999 * Speed) / 100);  // 映射到0-999
+        pwm_value = (uint16_t)((999 * Speed) / 100);  // 映射刄1�70-999
     }
     else
     {
         // 反转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_0);  // 左电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_1);    // 左电机反转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_2);  // 右电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_3);    // 右电机反转
+        GPIO_ResetBits(GPIOC, GPIO_Pin_0);  // 左电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_1);    // 左电机反轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_2);  // 右电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_3);    // 右电机反轄1�7
 //----------------------------------------TEST-------------------------------------//
-        GPIO_ResetBits(GPIOC, GPIO_Pin_4);  // 左电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_5);    // 左电机反转
-        GPIO_ResetBits(GPIOD, GPIO_Pin_3);  // 右电机正转
-        GPIO_SetBits(GPIOD, GPIO_Pin_7);    // 右电机反转
+        GPIO_ResetBits(GPIOC, GPIO_Pin_4);  // 左电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_5);    // 左电机反轄1�7
+        GPIO_ResetBits(GPIOD, GPIO_Pin_3);  // 右电机正轄1�7
+        GPIO_SetBits(GPIOD, GPIO_Pin_7);    // 右电机反轄1�7
 			
-        pwm_value = (uint16_t)((999 * (-Speed)) / 100);  // 映射到0-999
+        pwm_value = (uint16_t)((999 * (-Speed)) / 100);  // 映射刄1�70-999
     }
     
     // 设置两个电机的PWM
-    PWM_SetCompare3(pwm_value);  // 左电机 - PB0
-    PWM_SetCompare4(pwm_value);  // 右电机 - PB1
+    PWM_SetCompare3(pwm_value);  // 左电朄1�7 - PB0
+    PWM_SetCompare4(pwm_value);  // 右电朄1�7 - PB1
 		test_motor_left(pwm_value);
 		test_motor_right(pwm_value);
 }
@@ -95,41 +95,41 @@ void set_motor_speeds(float left_speed, float right_speed)
 {
     uint16_t left_pwm, right_pwm;
     
-    // 处理左电机
+    // 处理左电朄1�7
     if (left_speed >= 0)
     {
-        // 左电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_0);    // 左电机正转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_1);  // 左电机反转
-        left_pwm = (uint16_t)((999 * left_speed) / 100);  // 映射到0-999
+        // 左电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_0);    // 左电机正轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_1);  // 左电机反轄1�7
+        left_pwm = (uint16_t)((999 * left_speed) / 100);  // 映射刄1�70-999
     }
     else
     {
-        // 左电机反转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_0);  // 左电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_1);    // 左电机反转
-        left_pwm = (uint16_t)((999 * (-left_speed)) / 100);  // 映射到0-999
+        // 左电机反轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_0);  // 左电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_1);    // 左电机反轄1�7
+        left_pwm = (uint16_t)((999 * (-left_speed)) / 100);  // 映射刄1�70-999
     }
     
-    // 处理右电机
+    // 处理右电朄1�7
     if (right_speed >= 0)
     {
-        // 右电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_2);    // 右电机正转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_3);  // 右电机反转
-        right_pwm = (uint16_t)((999 * right_speed) / 100);  // 映射到0-999
+        // 右电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_2);    // 右电机正轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_3);  // 右电机反轄1�7
+        right_pwm = (uint16_t)((999 * right_speed) / 100);  // 映射刄1�70-999
     }
     else
     {
-        // 右电机反转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_2);  // 右电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_3);    // 右电机反转
-        right_pwm = (uint16_t)((999 * (-right_speed)) / 100);  // 映射到0-999
+        // 右电机反轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_2);  // 右电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_3);    // 右电机反轄1�7
+        right_pwm = (uint16_t)((999 * (-right_speed)) / 100);  // 映射刄1�70-999
     }
     
     // 设置两个电机的PWM
-    PWM_SetCompare3(left_pwm);   // 左电机
-    PWM_SetCompare4(right_pwm);  // 右电机
+    PWM_SetCompare3(left_pwm);   // 左电朄1�7
+    PWM_SetCompare4(right_pwm);  // 右电朄1�7
 }
 
 
@@ -152,71 +152,71 @@ void Motor_MECNAMU_SetSpeed(float chassis_vx,float chassis_vy)
 	  float vt_rf;
 	  float vt_lb;
 	  float vt_rb;
-		vt_lf = -(-chassis_vx + chassis_vy); //(chassis_vx - chassis_vy);//右后轮//(chassis_vx - chassis_vy)
-    vt_rf = -(chassis_vx + chassis_vy); ;//(-chassis_vx - chassis_vy);//左后轮//(-chassis_vx - chassis_vy)
-    vt_rb = (chassis_vx - chassis_vy); ;//(-chassis_vx + chassis_vy);//左前轮//(-chassis_vx + chassis_vy);
-    vt_lb = (-chassis_vx - chassis_vy); //(chassis_vx + chassis_vy);//右前轮//(chassis_vx + chassis_vy)
+		vt_lf = -(-chassis_vx + chassis_vy); //(chassis_vx - chassis_vy);//右后轄1�7//(chassis_vx - chassis_vy)
+    vt_rf = -(chassis_vx + chassis_vy); ;//(-chassis_vx - chassis_vy);//左后轄1�7//(-chassis_vx - chassis_vy)
+    vt_rb = (chassis_vx - chassis_vy); ;//(-chassis_vx + chassis_vy);//左前轄1�7//(-chassis_vx + chassis_vy);
+    vt_lb = (-chassis_vx - chassis_vy); //(chassis_vx + chassis_vy);//右前轄1�7//(chassis_vx + chassis_vy)
     
-    // 处理左电机
+    // 处理左电朄1�7
     if (vt_lf >= 0)
     {
-        // 左电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_0);    // 左电机正转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_1);  // 左电机反转
-        vt_lf_pwm = (uint16_t)((999 * vt_lf) / 100);  // 映射到0-999
+        // 左电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_0);    // 左电机正轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_1);  // 左电机反轄1�7
+        vt_lf_pwm = (uint16_t)((999 * vt_lf) / 100);  // 映射刄1�70-999
     }
     else
     {
-        // 左电机反转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_0);  // 左电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_1);    // 左电机反转
-        vt_lf_pwm = (uint16_t)((999 * (-vt_lf)) / 100);  // 映射到0-999
+        // 左电机反轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_0);  // 左电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_1);    // 左电机反轄1�7
+        vt_lf_pwm = (uint16_t)((999 * (-vt_lf)) / 100);  // 映射刄1�70-999
     }
     
-    // 处理右电机
+    // 处理右电朄1�7
     if (vt_rf >= 0)
     {
-        // 右电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_2);    // 右电机正转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_3);  // 右电机反转
-        vt_rf_pwm = (uint16_t)((999 * vt_rf) / 100);  // 映射到0-999
+        // 右电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_2);    // 右电机正轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_3);  // 右电机反轄1�7
+        vt_rf_pwm = (uint16_t)((999 * vt_rf) / 100);  // 映射刄1�70-999
     }
     else
     {
-        // 右电机反转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_2);  // 右电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_3);    // 右电机反转
-        vt_rf_pwm = (uint16_t)((999 * (-vt_rf)) / 100);  // 映射到0-999
+        // 右电机反轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_2);  // 右电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_3);    // 右电机反轄1�7
+        vt_rf_pwm = (uint16_t)((999 * (-vt_rf)) / 100);  // 映射刄1�70-999
     }
 		    if (vt_rb >= 0)
     {
-        // 左电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_4);    // 左电机正转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_5);  // 左电机反转
-        vt_rb_pwm = (uint16_t)((999 * vt_rb) / 100);  // 映射到0-999
+        // 左电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_4);    // 左电机正轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_5);  // 左电机反轄1�7
+        vt_rb_pwm = (uint16_t)((999 * vt_rb) / 100);  // 映射刄1�70-999
     }
     else
     {
-        // 左电机反转
-        GPIO_ResetBits(GPIOC, GPIO_Pin_4);  // 左电机正转
-        GPIO_SetBits(GPIOC, GPIO_Pin_5);    // 左电机反转
-        vt_rb_pwm = (uint16_t)((999 * (-vt_rb)) / 100);  // 映射到0-999
+        // 左电机反轄1�7
+        GPIO_ResetBits(GPIOC, GPIO_Pin_4);  // 左电机正轄1�7
+        GPIO_SetBits(GPIOC, GPIO_Pin_5);    // 左电机反轄1�7
+        vt_rb_pwm = (uint16_t)((999 * (-vt_rb)) / 100);  // 映射刄1�70-999
     }
     
-    // 处理右电机
+    // 处理右电朄1�7
     if (vt_lb >= 0)
     {
-        // 右电机正转
-        GPIO_SetBits(GPIOD, GPIO_Pin_3);    // 右电机正转
-        GPIO_ResetBits(GPIOD, GPIO_Pin_7);  // 右电机反转
-        vt_lb_pwm = (uint16_t)((999 * vt_lb) / 100);  // 映射到0-999
+        // 右电机正轄1�7
+        GPIO_SetBits(GPIOD, GPIO_Pin_3);    // 右电机正轄1�7
+        GPIO_ResetBits(GPIOD, GPIO_Pin_7);  // 右电机反轄1�7
+        vt_lb_pwm = (uint16_t)((999 * vt_lb) / 100);  // 映射刄1�70-999
     }
     else
     {
-        // 右电机反转
-        GPIO_ResetBits(GPIOD, GPIO_Pin_3);  // 右电机正转
-        GPIO_SetBits(GPIOD, GPIO_Pin_7);    // 右电机反转
-        vt_lb_pwm = (uint16_t)((999 * (-vt_lb)) / 100);  // 映射到0-999
+        // 右电机反轄1�7
+        GPIO_ResetBits(GPIOD, GPIO_Pin_3);  // 右电机正轄1�7
+        GPIO_SetBits(GPIOD, GPIO_Pin_7);    // 右电机反轄1�7
+        vt_lb_pwm = (uint16_t)((999 * (-vt_lb)) / 100);  // 映射刄1�70-999
     }
 		
 		
@@ -224,9 +224,9 @@ void Motor_MECNAMU_SetSpeed(float chassis_vx,float chassis_vy)
 
     
     // 设置两个电机的PWM
-    PWM_SetCompare3(vt_lf_pwm);  // 左电机 - PB0
-    PWM_SetCompare4(vt_rf_pwm);  // 右电机 - PB1
-	test_motor_left(1.19*vt_rb_pwm);
+  PWM_SetCompare3(vt_lf_pwm);  // 左电朄1�7 - PB0
+  PWM_SetCompare4(vt_rf_pwm);  // 右电朄1�7 - PB1
+	test_motor_left(1.10*vt_rb_pwm);//1.19*
 	test_motor_right(vt_lb_pwm);
 }
 
